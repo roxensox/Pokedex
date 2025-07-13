@@ -8,6 +8,7 @@ import (
 )
 
 func main() {
+	// TEST
 	/*
 		REPL for the Pokedex
 	*/
