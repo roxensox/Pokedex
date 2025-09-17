@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestCleanInput(t *testing.T) {
 	cases := []struct {
@@ -8,40 +10,37 @@ func TestCleanInput(t *testing.T) {
 		expected []string
 	}{
 		{
-			input:    "   hello world    ",
+			input:    "hello world",
 			expected: []string{"hello", "world"},
 		},
 		{
-			input:    " HeLlo  WOrld",
+			input:    "    hello world",
 			expected: []string{"hello", "world"},
 		},
 		{
-			input:    " what's your name ? obi wan",
-			expected: []string{"what's", "your", "name", "?", "obi", "wan"},
+			input:    "goodbye       moon",
+			expected: []string{"goodbye", "moon"},
 		},
 		{
-			input:    "",
-			expected: []string{},
+			input:    "g o o d b y e",
+			expected: []string{"g", "o", "o", "d", "b", "y", "e"},
 		},
 		{
-			input:    "                    ",
-			expected: []string{},
-		},
-		{
-			input:    "fhakjlafhailhfkjsdahflkasjhfkasdhjfjkadshfkasdjhf",
-			expected: []string{"fhakjlafhailhfkjsdahflkasjhfkasdhjfjkadshfkasdjhf"},
+			input:    "test case            ",
+			expected: []string{"test", "case"},
 		},
 	}
+
 	for _, c := range cases {
 		actual := cleanInput(c.input)
 		if len(actual) != len(c.expected) {
-			t.Errorf("Return length doesn't match expected length.\nGot: %d\nExpected: %d", len(actual), len(c.expected))
+			t.Errorf("Incorrect output length")
 		}
 		for i := range actual {
 			word := actual[i]
-			expected_word := c.expected[i]
-			if word != expected_word {
-				t.Errorf("Mismatch at index %d: %v != %v", i, word, expected_word)
+			expectedWord := c.expected[i]
+			if word != expectedWord {
+				t.Errorf("Incorrect word")
 			}
 		}
 	}

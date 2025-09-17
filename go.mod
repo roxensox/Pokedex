@@ -1,3 +1,3 @@
-module github.com/roxensox/Pokedex
+module github.com/roxensox/pokedexcli
 
-go 1.24.5
+go 1.25.1
