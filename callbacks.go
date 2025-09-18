@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-
-	"github.com/roxensox/pokedexcli/internal/pokeapi"
 )
 
 func commandExit(*config) error {
@@ -25,8 +23,7 @@ func commandHelp(*config) error {
 }
 
 func commandMap(cfg *config) error {
-	pokeapiClient := pokeapi.NewClient()
-	resp, err := pokeapiClient.ListLocationAreas()
+	resp, err := cfg.pokeapiClient.ListLocationAreas(cfg.Next)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -34,5 +31,21 @@ func commandMap(cfg *config) error {
 	for _, area := range resp.Results {
 		fmt.Printf(" - %s\n", area.Name)
 	}
+	cfg.Next = resp.Next
+	cfg.Previous = resp.Previous
+	return nil
+}
+
+func commandMapb(cfg *config) error {
+	resp, err := cfg.pokeapiClient.ListLocationAreas(cfg.Previous)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Location areas:")
+	for _, area := range resp.Results {
+		fmt.Printf(" - %s\n", area.Name)
+	}
+	cfg.Next = resp.Next
+	cfg.Previous = resp.Previous
 	return nil
 }

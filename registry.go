@@ -1,5 +1,7 @@
 package main
 
+import "github.com/roxensox/pokedexcli/internal/pokeapi"
+
 type cliCommand struct {
 	name        string
 	description string
@@ -20,14 +22,19 @@ func getCommands() map[string]cliCommand {
 		},
 		"map": {
 			name:        "map",
-			description: "Displays map locations",
+			description: "Displays next page of map locations",
 			callback:    commandMap,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Displays previous page of map locations",
+			callback:    commandMapb,
 		},
 	}
 }
 
 type config struct {
-	Next     *string
-	Previous *string
-	Current  *string
+	pokeapiClient pokeapi.Client
+	Next          *string
+	Previous      *string
 }
