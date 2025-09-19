@@ -34,8 +34,8 @@ func TestAddEntry(t *testing.T) {
 	}
 
 	for _, cas := range cases {
-		cache.Add(cas.inputKey, cas.inputVal, cache.mux)
-		actual, ok := cache.Get(cas.inputKey, cache.mux)
+		cache.Add(cas.inputKey, cas.inputVal)
+		actual, ok := cache.Get(cas.inputKey)
 		if !ok {
 			t.Errorf("%s not found", cas.inputKey)
 		}
@@ -50,9 +50,9 @@ func TestReap(t *testing.T) {
 	interval := time.Millisecond * 10
 	cache := NewCache(interval)
 	keyOne := "key1"
-	cache.Add(keyOne, []byte("val1"), cache.mux)
+	cache.Add(keyOne, []byte("val1"))
 	time.Sleep(interval + time.Millisecond)
-	_, ok := cache.Get(keyOne, cache.mux)
+	_, ok := cache.Get(keyOne)
 	if ok {
 		t.Errorf("%s should have been reaped", keyOne)
 	}

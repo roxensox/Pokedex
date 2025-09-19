@@ -19,6 +19,8 @@ func startRepl(cfg *config) {
 			continue
 		}
 
+		cfg.Commands = words
+
 		commandName := words[0]
 
 		command, ok := commands[commandName]

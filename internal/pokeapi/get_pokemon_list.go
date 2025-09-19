@@ -7,44 +7,39 @@ import (
 	"net/http"
 )
 
-func (c *Client) ListLocationAreas(pageURL *string) (LocationAreasResp, error) {
-	endpoint := "/location-area"
+func (c *Client) ListEncounters(location string) (LocationDetails, error) {
+	endpoint := fmt.Sprintf("/location-area/%s", location)
 	fullURL := baseURL + endpoint
 
-	if pageURL != nil {
-		fullURL = *pageURL
-	}
-
 	if data, ok := c.cache.Get(fullURL); ok {
-		out := LocationAreasResp{}
+		out := LocationDetails{}
 		json.Unmarshal(data, &out)
 		return out, nil
 	}
 
 	req, err := http.NewRequest("GET", fullURL, nil)
+
 	if err != nil {
-		return LocationAreasResp{}, err
+		return LocationDetails{}, err
 	}
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
-		return LocationAreasResp{}, err
+		return LocationDetails{}, err
 	}
-
 	defer resp.Body.Close()
-
 	if resp.StatusCode > 299 {
-		return LocationAreasResp{}, fmt.Errorf("Bad status code: %v", resp.StatusCode)
+		return LocationDetails{}, fmt.Errorf("Bad status code: %v", resp.StatusCode)
 	}
 
 	dat, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return LocationAreasResp{}, err
+		return LocationDetails{}, err
 	}
 
 	c.cache.Add(fullURL, dat)
 
-	out := LocationAreasResp{}
+	out := LocationDetails{}
 	json.Unmarshal(dat, &out)
 	return out, nil
 }

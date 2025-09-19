@@ -1,6 +1,8 @@
 package main
 
-import "github.com/roxensox/pokedexcli/internal/pokeapi"
+import (
+	"github.com/roxensox/pokedexcli/internal/pokeapi"
+)
 
 type cliCommand struct {
 	name        string
@@ -30,11 +32,33 @@ func getCommands() map[string]cliCommand {
 			description: "Displays previous page of map locations",
 			callback:    commandMapb,
 		},
+		"explore": {
+			name:        "explore",
+			description: "Displays a list of all pokemon in the specified area",
+			callback:    commandExplore,
+		},
+		"catch": {
+			name:        "catch",
+			description: "Tries to catch a specified pokemon",
+			callback:    commandCatch,
+		},
+		"inspect": {
+			name:        "catch",
+			description: "Displays the details of a specified pokemon",
+			callback:    commandInspect,
+		},
+		"pokedex": {
+			name:        "pokedex",
+			description: "Displays all pokemon caught by the user",
+			callback:    commandPokedex,
+		},
 	}
 }
 
 type config struct {
 	pokeapiClient pokeapi.Client
+	Commands      []string
+	Caught        []string
 	Next          *string
 	Previous      *string
 }
